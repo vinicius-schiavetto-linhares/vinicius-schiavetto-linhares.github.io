@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <title></title>
+    <style>
+      /* Estilo padrão */
+      *{
+        box-sizing: border-box;
+      }
+      html, body{
+        margin: 0;
+      }
+      body{
+        font-family: "Open Sans";
+      }
+
+      /* Menu */
+      .menu{
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        height: 61px;
+        background-color: #070c21;
+        background-color: #130721;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 1000;
+      }
+      .menu-logo{
+        z-index: 1050;
+        max-width: 50px;
+        position: absolute;
+        bottom: -10px;
+        left: 10px;
+      }
+      .menu-bar{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: #130721;
+        z-index: 1010;
+      }
+      .menu-ico{
+        font-size: 24px;
+        line-height: 28px;
+        color: #f0f0e5;
+        margin: 16px;
+        margin-right: 20px;
+        z-index: 1050;
+      }
+      .menu-itens{
+        /*display: none;*/
+        display: flex;
+        opacity: 0;
+        transform: translateY(-180px);
+        transition: transform 500ms, opacity 300ms;
+        flex-direction: column;
+        width: 100vw;
+        z-index: 1000;
+      }
+      .menu-aberto{
+        /*display: flex;*/
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      .menu-item{
+        color: #eee;
+        text-decoration: none;
+        background-color: #2B0938;
+        font-size: 17px;
+        padding: 14px 28px;
+        border-top: 1px solid #130721;
+        z-index: 1000;
+      }
+      .close-menu{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0);
+        z-index: 990;
+        display: none;
+      }
+
+
+      /* Banner */
+      .banner-box{
+        height: calc(100vh - 60px);
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin-top: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+      .banner-img-box{
+        position: absolute;
+        top: -1px;
+        left: 0px;
+        width: 100vw;
+        height: calc(100vh - 60px + 1px);
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        z-index: 100;
+        background-color: #050917;
+      }
+      .banner-img{
+        height: calc(100vh - 60px + 1px);
+        z-index: 100;
+      }
+      .banner-titulo{
+        color: #fff;
+        z-index: 200;
+        text-align: center;
+        text-shadow: 0px 0px 20px rgba(0, 0, 0, 1), 0px 0px 10px rgba(0, 0, 0, 1), 0px 0px 5px rgba(0, 0, 0, 1);
+      }
+      .banner-titulo h3{
+        text-align: left;
+        font-style: italic;
+        font-weight: 500;
+        margin: 0px;
+      }
+      .banner-titulo h1{
+        font-size: 32px;
+        line-height: 50px;
+        margin: 0px;
+      }
+      .banner-titulo h2{
+        font-size: 26.4px;
+        font-weight: 500;
+        margin: 0px;
+      }
+      .banner-titulo p{
+        margin: 0px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 400;
+        display: none;
+      }
+      .banner-arrow-box{
+        position: absolute;
+        width: 100vw;
+        bottom: 16px;
+        z-index: 200;
+        display: flex;
+        justify-content: center;
+      }
+      .banner-arrow{
+        font-size: 48px;
+        color: #fff;
+        z-index: 200;
+        text-shadow: 0 0 50px #000;
+        transform: translateY(0px);
+        transition: transform 1000ms;
+      }
+      .banner-arrow-alt{
+        /*position: relative;
+        top: 50px;*/
+        transform: translateY(15px);
+      }
+
+      /* Padrão das sessões */
+      .section{
+        padding: 48px 24px;
+      }
+      .section-scroll{
+        padding: 48px 0px;
+      }
+
+      /* Parte Sobre */
+      .section-sobre{
+        background-color: #540954;
+        color: #f0f0e5;
+        background-image: url("back.png");
+        background-size: 100px;
+      }
+      .sobre-titulo{
+        margin: 0px;
+      }
+      .text{
+        margin-top: 32px;
+        font-size: 16px;
+        line-height: 26px;
+      }
+
+      /* Parte Detalhes */
+      .section-detalhes{
+        height: calc(100vh - 60px + 1px);
+        background-color: #FFE4FF;
+      }
+      .detalhes-titulo{
+        color: #333018;
+        margin: 0px;
+        margin-left: 24px;
+        margin-right: 24px;
+      }
+      .detalhes-scroll{
+        display: flex;
+        overflow: auto;
+        width: auto;
+        height: 100%;
+        align-items: center;
+        padding: 0 32px;
+      }
+      .detalhes-item{
+        width: 70vw;
+        flex-shrink: 0;
+        margin: 0 16px;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        /*box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.3);*/
+        box-shadow: 0px 0px 20px 1px rgba(84, 68, 9, .5);
+        padding: 4px 16px;
+        background-color: #f4f4f0;
+      }
+      .detalhes-item-titulo{
+        font-size: 16px;
+      }
+      .text-alt{
+        font-style: italic;
+      }
+      .text-bold{
+        font-weight: 700;
+      }
+      .item-final{
+        padding: 0px 16px;
+        color: #dad5b1;
+      }
+
+
+      /* Parte Contato */
+      .section-contato{
+        height: calc(100vh - 60px + 1px);
+        display: flex;
+        flex-direction: column;
+        background-color: #f0f0f0;
+      }
+      .news-titulo{
+        margin: 0px;
+        flex-grow: 0;
+      }
+      .contato-box{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .news-form{
+        display: flex;
+        margin-top: 64px;
+      }
+      .input{
+        padding: 8px 16px;
+        font-size: 14px;
+        border: 1px solid #999;
+        border-radius: 2px;
+      }
+      .input:focus{
+        outline-color: #333;
+      }
+      .news-input{
+        flex-grow: 1;
+        margin-right: 8px;
+      }
+      .button{
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 2px;
+        font-size: 14px;
+      }
+      .text-min{
+        margin: 0px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-style: italic;
+        text-align: center;
+      }
+      .social-item-box{
+        display: flex;
+        justify-content: center;
+      }
+      .social-item{
+        color: #333;
+        font-size: 64px;
+        line-height: 64px;
+        margin-left: 16px;
+        margin-right: 16px;
+      }
+
+
+
+      /* Box modal */
+      .box-modal{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 1100;
+        display: flex;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .modal-close{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+      }
+      .modal{
+        width: 80vw;
+        background-color: #fff;
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 4px;
+        box-shadow: 0px 0px 20px 1px #333;
+        position: relative;
+      }
+      .modal-close-ico{
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        color: #999;
+      }
+      .modal-titulo{
+        font-size: 16px;
+        margin: 0px;
+        text-align: center;
+      }
+      .box-inputs{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 32px;
+        margin-bottom: 16px;
+      }
+      .modal-input{
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .modal-button{
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+
+
+      /* Footer */
+      .footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 32px 0px;
+        background-color: #080C33;
+        color: #fff;
+        font-size: 15px;
+        line-height: 25px;
+        text-align: center;
+      }
+      .ancora{
+        display: block;
+        height: 0px;
+        color: rgba(255, 255, 255, 0);
+        position: relative;
+        top: -60px;
+      }
+
+
+
+
+    /* Estilo a ser aplicado para mobile em modo paisagem */
+    @media (max-width: 960px) and (min-aspect-ratio: 13/9) {
+
+      .banner-titulo{
+        position: relative;
+        top: -5vw;
+      }
+
+
+      .section {
+          padding: 64px 32px;
+      }
+      .section-scroll {
+          padding: 64px 0px;
+      }
+
+
+      .section-detalhes{
+        height: auto;
+      }
+      .detalhes-titulo {
+        margin-left: 32px;
+        margin-right: 32px;
+      }
+      .detalhes-item{
+        margin-top: 48px;
+        margin-bottom: 24px;
+      }
+
+
+      .section-contato{
+        height: auto;
+      }
+      .contato-box{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        align-items: flex-end;
+        margin-top: 48px;
+      }
+      .news-box{
+        margin-left: 32px;
+      }
+      .news-form {
+        display: flex;
+        margin-top: 0px;
+      }
+      .text-min{
+        margin-top: 4px;
+      }
+      .text-min-alt{
+        margin-top: 9px;
+      }
+
+
+    }
+
+
+
+
+
+
+      /* Estilo a ser aplicado para computador */
+      @media(min-width: 960px){
+        .menu{
+          height: 101px;
+        }
+        .menu-logo{
+          max-width: 86px;
+          bottom: 7px;
+          left: 30px;
+        }
+        .menu-bar{
+          display: none;
+        }
+        .menu-ico{
+          display: none;
+        }
+        .menu-itens{
+          display: flex;
+          opacity: 1;
+          transform: translateY(0px);
+          flex-direction: row;
+          align-items: center;
+          width: auto;
+          height: 100px;
+        }
+        .menu-item{
+          color: #f0f0e5;
+          text-decoration: none;
+          background-color: inherit;
+          border-top: none;
+          font-size: 18px;
+          transition: color 300ms, border-color 300ms;
+          padding: 0px;
+          padding-bottom: 4px;
+          margin-right: 32px;
+          border-bottom: 1px solid #130721;
+        }
+        .menu-item:hover{
+          color: #fff;
+          border-color: #fff;
+        }
+        .banner-box{
+          margin-top: 100px;
+          height: calc(100vh - 100px);
+        }
+        .banner-img-box{
+          height: calc(100vh - 100px + 1px);
+        }
+        .banner-img{
+          height: calc(100vh - 100px + 1px);
+        }
+        .banner-titulo{
+          position: relative;
+          left: 25vw;
+        }
+        .banner-titulo h3{
+          font-size: 24px;
+        }
+        .banner-titulo h1{
+          font-size: 42px;
+        }
+        .banner-titulo h2{
+          font-size: 34.6px;
+        }
+        .banner-titulo p{
+          font-size: 18px;
+          display: none;
+        }
+        .banner-arrow-box{
+            align-items: center;
+            height: 100px;
+        }
+        .banner-arrow{
+          font-size: 64px;
+          color: #fff;
+          z-index: 200;
+          text-shadow: 0 0 50px #000, 0 0 10px #000;
+          transition: font-size 100ms, text-shadow 100ms, transform 1000ms;
+        }
+        .banner-arrow:hover{
+          font-size: 78px;
+          text-shadow: 0 0 50px #000, 0 0 20px #000, 0 0 10px #000, 0 0 5px #000;
+        }
+
+        .section-sobre{
+          height: calc(100vh - 100px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-size: 150px;
+        }
+        .sobre-titulo{
+          width: 280px;
+          font-size: 48px;
+          margin-right: 100px;
+        }
+        .sobre-text-box{
+          width: 620px;
+        }
+        .sobre-text-box .text{
+          font-size: 20px;
+          line-height: 30px;
+        }
+
+
+        .section-detalhes{
+          height: calc(100vh - 100px);
+        }
+        .detalhes-titulo{
+          text-align: center;
+          margin-top: 40px;
+          font-size: 42px;
+        }
+        .detalhes-scroll{
+          display: flex;
+          overflow: hidden;
+          width: 100%;
+          align-items: center;
+          justify-content: center;
+          padding: 0 32px;
+        }
+        .detalhes-item{
+          width: calc(1000px / 3 - 32px);
+          flex-shrink: 1;
+          flex-grow: 0;
+          margin: 0 16px;
+          border: 1px solid #eee;
+          border-radius: 4px;
+          /*box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.3);*/
+          box-shadow: 0px 0px 20px 1px rgba(84, 68, 9, .5);
+          padding: 4px 16px;
+          background-color: #f0f0e5;
+        }
+        .detalhes-item-titulo{
+          font-size: 16px;
+        }
+        .text-alt{
+          font-style: italic;
+        }
+        .text-bold{
+          font-weight: 700;
+        }
+        .item-final{
+          display: none;
+        }
+
+
+
+        .section-contato{
+          height: calc(100vh - 100px);
+        }
+        .news-titulo{
+          text-align: center;
+          margin-top: 40px;
+          font-size: 42px;
+          flex-grow: 0;
+        }
+        .contato-box{
+          flex-grow: 1;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          width: 100%;
+          align-items: center;
+        }
+        .news-form{
+          display: flex;
+          align-items: center;
+          margin-top: 0px;
+          width: 400px;
+        }
+        .news-box{
+          margin-top: 76px;
+        }
+        .input{
+          padding: 12px 24px;
+          font-size: 16px;
+          border: 1px solid #999;
+          border-radius: 2px;
+        }
+        .input:focus{
+          outline-color: #333;
+        }
+        .news-input{
+          flex-grow: 1;
+          margin-right: 8px;
+        }
+        .button{
+          background-color: #333;
+          color: #fff;
+          text-decoration: none;
+          padding: 11px 24px;
+          border-radius: 2px;
+          font-size: 16px;
+        }
+        .text-min{
+          margin: 0px;
+          margin-top: 24px;
+          font-size: 18px;
+          font-style: italic;
+          text-align: center;
+        }
+        .text-min-alt{
+          margin-top: 32px;
+        }
+        .social-box{
+          width: 500px;
+        }
+        .social-item-box{
+          display: flex;
+          justify-content: center;
+        }
+        .social-item{
+          color: #333;
+          font-size: 128px;
+          line-height: 64px;
+          margin-left: 32px;
+          margin-right: 32px;
+        }
+
+
+
+        .modal{
+          width: 400px;
+          padding: 48px;
+        }
+        .modal-titulo{
+          font-size: 18px;
+          text-align: center;
+        }
+
+
+        .ancora{
+          top: -100px;
+        }
+        .just-mobile{
+          display: none;
+        }
+      }
+
+
+
+    </style>
+  </head>
+  <body>
+    <header class="menu">
+      <div class="menu-bar"></div>
+      <img class="menu-logo" src="logo.png" alt="">
+      <a class="menu-ico" href="#" onclick=" return alternarMenu();"><i class="fas fa-bars"></i></a>
+      <nav id="menu-itens" class="menu-itens">
+        <a class="menu-item" data-ancora="a-home" href="#">Fantástika</a>
+        <a class="menu-item" data-ancora="a-sobre" href="#">Sobre</a>
+        <a class="menu-item" data-ancora="a-atividades" href="#">Atividades</a>
+        <a class="menu-item" data-ancora="a-contato" href="#">Contato</a>
+      </nav>
+    </header>
+    <div class="close-menu" id="close-menu"></div>
+
+    <a class="ancora" id="a-home">.</a>
+    <div class="banner-box">
+      <div class="banner-titulo">
+        <h3>Mini Festival</h3>
+        <h1>Literatura Fantástika</h1>
+        <h2>Coordenadas e Horrores</h2>
+      </div>
+      <div class="banner-img-box">
+        <img class="banner-img" src="ban2.png" alt="banner">
+      </div>
+      <div class="banner-arrow-box">
+        <a class="banner-arrow" id="banner-arrow" data-ancora="a-sobre" href="#"><i class="fas fa-angle-down"></i></a>
+      </div>
+    </div>
+
+    <main>
+
+      <a class="ancora" id="a-sobre">.</a>
+      <section class="section section-sobre">
+        <h2 class="sobre-titulo">Sobre o mini Festival</h2>
+        <div class="sobre-text-box">
+          <p class="text">Acontecerá dia 10/11 na Biblioteca Pública Municipal Alceu Amoroso Lima localizada na Rua Henrique Schaumann, 777 em Pinheiros.</p>
+          <p class="text">Após o sucesso do 1º FESTIVAL DE LITERATURA FASTÁSTIKA, a Fantástika 451 organiza o MINI FESTIVAL DE LITERATURA FANTÁSTIKA: COORDENADAS E HORRORES, para o lançamento de duas edições da Revista Fantástika 451: Coordenadas para hoje e amanhã e Especial: Horror.</p>
+          <p class="text">Para isso, foi organizada uma mesa de discussão para cada edição lançada: FEMINISMO NO PASSADO E NO FUTURO: HERLAND: TERRA DAS MULHERES e MEDOS CONTEMPORÂNEOS: O HORROR NA LITERATURA HOJE. Além das mesas terá também a 1ª FESTA À FANTASIA FANTÁSTIKA.</p>
+        </div>
+      </section>
+
+
+      <a class="ancora" id="a-atividades">.</a>
+      <section class="section-scroll section-detalhes">
+        <h2 class="detalhes-titulo">O que vai rolar?</h2>
+        <div class="detalhes-scroll">
+          <div class="detalhes-item">
+            <h3 class="detalhes-item-titulo">Feminismo no passado e no futuro. Herland: Terra das mulheres</h3>
+            <p>Debate sobre como o feminismo era retratado no tempo da obra e como é nos dias de hoje.</p>
+            <p class="text-alt"><span class="text-bold">13h</span> com Luísa Bérgami Fernandes e Flávia Yacubian</p>
+          </div>
+          <div class="detalhes-item">
+            <h3 class="detalhes-item-titulo">Medos contemporâneos: O horror na literatura hoje</h3>
+            <p>Mesa sobre como o Horror vem sendo tratado na literatura atualmente</p>
+            <p class="text-alt"><span class="text-bold">15h</span> com Michelle Henriques, Letícia Badan, Giulia Moon e Irana Gaia</p>
+          </div>
+          <div class="detalhes-item">
+            <h3 class="detalhes-item-titulo">1ª festa à fantasia fantástika</h3>
+            <p>Festa à fantasia para comemorar o lançamento das edições da revista e confraternizar junto com a galera.</p>
+            <p class="text-alt"><span class="text-bold">17h</span> na Las Magrelas Bar & Bicicletaria (5 min a pé da biblioteca)</p>
+          </div>
+          <div class="item-final">
+            .
+          </div>
+        </div>
+      </section>
+
+
+      <a class="ancora" id="a-contato">.</a>
+      <section class="section section-contato">
+        <h2 class="news-titulo">Não perca nada</h2>
+        <div class="contato-box">
+          <div class="social-box">
+            <div class="social-item-box">
+              <a class="social-item" target="_blank" href="https://www.facebook.com/events/179454426314646/"><i class="fab fa-facebook-square"></i></a>
+              <a class="social-item" target="_blank" href="https://www.instagram.com/fantastika451/"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="text-min">Acompanhe nas resdes sociais</p>
+          </div>
+          <div class="news-box">
+            <form class="news-form" action="index.html" method="post">
+              <input class="input news-input" type="text" name="" value="" placeholder="Nos diga seu e-mail">
+              <a class="button news-button" id="news-button" href="#">Enviar</a>
+            </form>
+            <p class="text-min text-min-alt">Receba todas as informações sobre o evento</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="box-modal" id="box-modal">
+        <div class="modal-close" id="modal-close"></div>
+        <div class="modal">
+          <a href="#" class="modal-close-ico" id="modal-close-ico"><i class="fas fa-times"></i></a>
+          <h3 class="modal-titulo">Complete as informações</h3>
+          <form class="" action="index.html" method="post">
+            <div class="box-inputs">
+              <input class="input modal-input" type="text" name="" value="" placeholder="Nos diga seu e-mail">
+              <input class="input modal-input" type="text" name="" value="" placeholder="Qual é o seu nome?">
+              <input class="input modal-input" type="text" name="" value="" placeholder="Quantos anos você tem?">
+            </div>
+            <a class="button modal-button" id="modal-button" href="#">Confirmar</a>
+          </form>
+        </div>
+      </section>
+
+      <footer class="footer">Landpage de exemplo com fins didáticos.<br class="just-mobile"/> Nenhum direito reservado.</footer>
+
+    </main>
+
+
+
+
+
+    <script>
+    //Código relacionado ao menu
+    menuAberto = false;
+    function alternarMenu(){
+      var links = document.getElementById('menu-itens');
+      var closeMenu = document.getElementById('close-menu');
+      if(menuAberto){
+        links.classList.remove("menu-aberto");
+        closeMenu.style.display = "none";
+      }else{
+        links.classList.add("menu-aberto");
+        closeMenu.style.display = "block";
+      }
+      menuAberto = !menuAberto;
+      return false;
+    }
+    function fecharMenu(){
+      var links = document.getElementById('menu-itens');
+      links.classList.remove("menu-aberto");
+      menuAberto = false;
+      var closeMenu = document.getElementById('close-menu');
+      closeMenu.style.display = "none";
+    }
+    var closeMenu = document.getElementById('close-menu');
+    closeMenu.addEventListener('click', function(e) {
+      fecharMenu();
+    }, false);
+
+
+
+    //Sobre o modal
+    var boxModal = document.getElementById('box-modal');
+    boxModal.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, false);
+    var modalClose = document.getElementById('modal-close');
+    modalClose.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeModal();
+    }, false);
+    var modalCloseIco = document.getElementById('modal-close-ico');
+    modalCloseIco.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeModal();
+    }, false);
+    var modalButton = document.getElementById('modal-button');
+    modalButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeModal();
+    }, false);
+    function closeModal(){
+      var modal = document.getElementById('box-modal');
+      modal.style.display = "none";
+    }
+    var btnNews = document.getElementById('news-button');
+    btnNews.addEventListener('click', function(e) {
+      e.preventDefault();
+      showModal();
+    }, false);
+    function showModal(){
+      var modal = document.getElementById('box-modal');
+      modal.style.display = "flex";
+    }
+
+
+
+    //Relacionado à setinha
+    var arrowCima = true;
+    var arrow = document.getElementById('banner-arrow');
+    var idAnime = setInterval(animaArrow, 1000);
+    function animaArrow(){
+      if(arrowCima){
+        arrow.classList.add("banner-arrow-alt");
+        arrowCima = false;
+      }else{
+        arrow.classList.remove("banner-arrow-alt");
+        arrowCima = true;
+      }
+    }
+    /*
+    arrow.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById(this.getAttribute("data-ancora")).scrollIntoView({
+          behavior: 'smooth', block: 'start', inline: 'nearest'
+      });
+    }, false);
+    */
+
+
+
+
+    //Referente às ancoras da página
+    document.querySelectorAll('[data-ancora]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            fecharMenu();
+            document.getElementById(this.getAttribute('data-ancora')).scrollIntoView({
+                behavior: 'smooth', block: 'start', inline: 'nearest'
+            });
+        });
+    });
+
+
+    </script>
+  </body>
+</html>
